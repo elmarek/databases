@@ -16,7 +16,8 @@ describe('Persistent Node Chat Server', function() {
     });
     dbConnection.connect();
 
-       var tablename = ""; // TODO: fill this out
+    var tablename = "messages"; // TODO: fill this out
+    dbConnection.query('delete from messages limit 5');
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
@@ -35,6 +36,7 @@ describe('Persistent Node Chat Server', function() {
       json: { username: 'Valjean' }
     }, function () {
       // Post a message to the node chat server:
+      //console.log('sending to the messages: ' )
       request({
         method: 'POST',
         uri: 'http://127.0.0.1:3000/classes/messages',
@@ -50,7 +52,7 @@ describe('Persistent Node Chat Server', function() {
         // TODO: You might have to change this test to get all the data from
         // your message table, since this is schema-dependent.
         var queryString = 'SELECT * FROM messages';
-        var queryArgs = [];
+        var queryArgs = []; //conditions for what messages we want
 
         dbConnection.query(queryString, queryArgs, function(err, results) {
           // Should have one result:
@@ -67,8 +69,8 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-       var queryString = "";
-       var queryArgs = [];
+    var queryString = 'SELECT * FROM messages'; // added this SELECT...
+    var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */
