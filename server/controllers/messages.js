@@ -9,9 +9,9 @@ module.exports = {
     models.messages.getAll((err, data) => {
       if (err) {
         //res.statusCode(404);
-        res.sendStatus(404);
+        res.status(400).send(err);
       } else {
-        // console.log("Messages GET Data :", data);
+        console.log("Messages GET Data :", data);
         res.json(data);
       }
     });
@@ -20,12 +20,12 @@ module.exports = {
   post: function (req, res) {
     let username = req.body.username;
     //let roomname = req.body.roomname || 'lobby'
-    let message = req.body.text;
-    let roomname = req.body.roomname;
-    var params = [message, username, roomname];
+    let message = req.body.message;
+    //let roomname = req.body.roomname;
+    var params = [message, username];
     models.messages.create(params, (err, data) => {
       if (err) {
-        res.sendStatus(404);
+        res.status(400).send(err);
       } else {
         // console.log("Messages POST Data :", data);
         res.sendStatus(201);
